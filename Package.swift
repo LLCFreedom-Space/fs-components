@@ -15,7 +15,8 @@ let package = Package(
         .library(name: "ConsulComponents", targets: ["ConsulComponents"]),
         .library(name: "ErrorMiddleware", targets: ["ErrorMiddleware"]),
         .library(name: "ValidationComponents", targets: ["ValidationComponents"]),
-        .library(name: "ApplicationStatusComponents", targets: ["ApplicationStatusComponents"])
+        .library(name: "ApplicationStatusComponents", targets: ["ApplicationStatusComponents"]),
+        .library(name: "LoggingComponents", targets: ["LoggingComponents"])
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -71,6 +72,12 @@ let package = Package(
                 ],
                 path: "./Services/ApplicationStatusComponents"
                ),
+        .target(name: "LoggingComponents",
+                dependencies: [
+                    .product(name: "Vapor", package: "vapor"),
+                ],
+                path: "./Services/LoggingComponents"
+               ),
         .testTarget(
             name: "fs-componentsTests",
             dependencies: [
@@ -79,7 +86,8 @@ let package = Package(
                 "RedisComponents",
                 "ConsulComponents",
                 "ValidationComponents",
-                "ApplicationStatusComponents"
+                "ApplicationStatusComponents",
+                "LoggingComponents"
             ]
         ),
     ]
