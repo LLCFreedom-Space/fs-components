@@ -17,23 +17,23 @@
 
 //
 //  Application+Extensions.swift
-//  
 //
-//  Created by Mykola Buhaiov on 10.02.2024.
+//
+//  Created by Mykola Buhaiov on 04.03.2024.
 //
 
 import Vapor
 
 extension Application {
-    /// A `PostgresComponentsKey` conform to StorageKey protocol
-    public struct PostgresComponentsKey: StorageKey {
-        /// Less verbose typealias for `PostgresComponentsProtocol`.
-        public typealias Value = PostgresComponentsProtocol
+    /// A `MongoComponentsKey` conform to StorageKey protocol
+    public struct MongoComponentsKey: StorageKey {
+        /// Less verbose typealias for `MongoComponentsProtocol`.
+        public typealias Value = MongoComponentsProtocol
     }
 
-    /// Setup `postgresComponents` in application storage
-    public var postgresComponents: PostgresComponentsProtocol? {
-        get { storage[PostgresComponentsKey.self] }
-        set { storage[PostgresComponentsKey.self] = newValue }
+    /// Setup `mongoComponents` in application storage
+    public var mongoComponents: MongoComponentsProtocol? {
+        get { storage[MongoComponentsKey.self] }
+        set { storage[MongoComponentsKey.self] = newValue }
     }
 }

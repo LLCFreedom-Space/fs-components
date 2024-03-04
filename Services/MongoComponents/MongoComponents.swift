@@ -16,24 +16,28 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //
-//  Application+Extensions.swift
-//  
+//  MongoComponents.swift
 //
-//  Created by Mykola Buhaiov on 10.02.2024.
+//
+//  Created by Mykola Buhaiov on 04.03.2024.
 //
 
 import Vapor
+import MongoClient
 
-extension Application {
-    /// A `PostgresComponentsKey` conform to StorageKey protocol
-    public struct PostgresComponentsKey: StorageKey {
-        /// Less verbose typealias for `PostgresComponentsProtocol`.
-        public typealias Value = PostgresComponentsProtocol
-    }
+public struct MongoComponents: MongoComponentsProtocol {
+    /// Instance of app as `Application`
+    public let app: Application
 
-    /// Setup `postgresComponents` in application storage
-    public var postgresComponents: PostgresComponentsProtocol? {
-        get { storage[PostgresComponentsKey.self] }
-        set { storage[PostgresComponentsKey.self] = newValue }
+    public func getConnection(by url: String) async -> MongoConnectionState {
+        do {
+            let mongoCluster = try await MongoCluster(connectingTo: ConnectionSettings(url))
+            let result = mongoCluster.connectionState
+            app.logger.debug("Connect to mongo have result: \(result)")
+            return result
+        } catch {
+            app.logger.error("ERROR: Connection to mongo db fail with error: \(error)")
+            return .disconnected
+        }
     }
 }

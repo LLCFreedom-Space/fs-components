@@ -16,7 +16,8 @@ let package = Package(
         .library(name: "ErrorMiddleware", targets: ["ErrorMiddleware"]),
         .library(name: "ValidationComponents", targets: ["ValidationComponents"]),
         .library(name: "ApplicationStatusComponents", targets: ["ApplicationStatusComponents"]),
-        .library(name: "LoggingComponents", targets: ["LoggingComponents"])
+        .library(name: "LoggingComponents", targets: ["LoggingComponents"]),
+        .library(name: "MongoComponents", targets: ["MongoComponents"])
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -28,7 +29,9 @@ let package = Package(
         // Vapor provider for RedisKit + RedisNIO
         .package(url: "https://github.com/vapor/redis.git", from: "5.0.0-alpha.2.1"),
         // 🔏 Vapor JWT provider
-        .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0")
+        .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
+        // 🐈 MongoDB driver based on Swift NIO.
+        .package(url: "https://github.com/orlandos-nl/MongoKitten.git", exact: "7.6.4"),
     ],
     targets: [
         .target(name: "PostgresComponents",
@@ -78,6 +81,13 @@ let package = Package(
                 ],
                 path: "./Services/LoggingComponents"
                ),
+        .target(name: "MongoComponents",
+                dependencies: [
+                    .product(name: "Vapor", package: "vapor"),
+                    .product(name: "MongoKitten", package: "MongoKitten")
+                ],
+                path: "./Services/MongoComponents"
+               ),
         .testTarget(
             name: "fs-componentsTests",
             dependencies: [
@@ -87,7 +97,8 @@ let package = Package(
                 "ConsulComponents",
                 "ValidationComponents",
                 "ApplicationStatusComponents",
-                "LoggingComponents"
+                "LoggingComponents",
+                "MongoComponents"
             ]
         ),
     ]
