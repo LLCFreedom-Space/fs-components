@@ -57,3 +57,22 @@ extension Application {
      app.mongoCluster = try await MongoCluster(connectingTo: ConnectionSettings(connectionString))
      */
 }
+
+extension Application {
+    /// A `MongoDBKey` conform to StorageKey protocol
+    public struct MongoDBKey: StorageKey {
+        /// Less verbose typealias for `MongoDatabase`.
+        public typealias Value = MongoDatabase
+    }
+
+    /// Setup `mongoDB` in application storage
+    public var mongoDB: MongoDatabase? {
+        get { storage[MongoDBKey.self] }
+        set { storage[MongoDBKey.self] = newValue }
+    }
+
+    /*
+     /// For example setup mongo database need use method like this:
+     app.mongoDB = try await try MongoDatabase.lazyConnect(to: connectionString)
+     */
+}
