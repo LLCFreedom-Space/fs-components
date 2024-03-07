@@ -30,14 +30,12 @@ public struct MongoComponents: MongoComponentsProtocol {
     public let app: Application
 
     public func getConnection(by url: String) async -> MongoConnectionState {
-        do {
-            let mongoCluster = try await MongoCluster(connectingTo: ConnectionSettings(url))
-            let result = mongoCluster.connectionState
-            app.logger.debug("Connect to mongo have result: \(result)")
-            return result
-        } catch {
-            app.logger.error("ERROR: Connection to mongo db fail with error: \(error)")
+        let result = app.mongoCluster?.connectionState
+        app.logger.debug("Connect to mongo have result: \(String(describing: result))")
+        guard let result else {
+            app.logger.error("ERROR: Connection to mongo not found. Result: \(String(describing: result))")
             return .disconnected
         }
+        return result
     }
 }

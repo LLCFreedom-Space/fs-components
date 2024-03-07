@@ -23,6 +23,7 @@
 //
 
 import Vapor
+import MongoKitten
 
 extension Application {
     /// A `MongoComponentsKey` conform to StorageKey protocol
@@ -36,4 +37,23 @@ extension Application {
         get { storage[MongoComponentsKey.self] }
         set { storage[MongoComponentsKey.self] = newValue }
     }
+}
+
+extension Application {
+    /// A `MongoClusterKey` conform to StorageKey protocol
+    public struct MongoClusterKey: StorageKey {
+        /// Less verbose typealias for `MongoCluster`.
+        public typealias Value = MongoCluster
+    }
+
+    /// Setup `mongoCluster` in application storage
+    public var mongoCluster: MongoCluster? {
+        get { storage[MongoClusterKey.self] }
+        set { storage[MongoClusterKey.self] = newValue }
+    }
+
+    /*
+     /// For example setup mongo cluster need use method like this:
+     app.mongoCluster = try await MongoCluster(connectingTo: ConnectionSettings(connectionString))
+     */
 }
