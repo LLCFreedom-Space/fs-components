@@ -17,7 +17,8 @@ let package = Package(
         .library(name: "ValidationComponents", targets: ["ValidationComponents"]),
         .library(name: "ApplicationStatusComponents", targets: ["ApplicationStatusComponents"]),
         .library(name: "LoggingComponents", targets: ["LoggingComponents"]),
-        .library(name: "MongoComponents", targets: ["MongoComponents"])
+        .library(name: "MongoComponents", targets: ["MongoComponents"]),
+        .library(name: "AllowedHostsMiddleware", targets: ["AllowedHostsMiddleware"])
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -88,6 +89,12 @@ let package = Package(
                 ],
                 path: "./Services/MongoComponents"
                ),
+        .target(name: "AllowedHostsMiddleware",
+                dependencies: [
+                    .product(name: "Vapor", package: "vapor"),
+                ],
+                path: "./Services/AllowedHostsMiddleware"
+               ),
         .testTarget(
             name: "fs-componentsTests",
             dependencies: [
@@ -98,7 +105,8 @@ let package = Package(
                 "ValidationComponents",
                 "ApplicationStatusComponents",
                 "LoggingComponents",
-                "MongoComponents"
+                "MongoComponents",
+                "AllowedHostsMiddleware"
             ]
         ),
     ]
