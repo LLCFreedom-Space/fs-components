@@ -28,6 +28,10 @@ public struct LogLevel {
     /// Instance of app as `Application`
     let app: Application
 
+    init(app: Application) {
+        self.app = app
+    }
+
     public func setupLoggingLevel() {
         if let logLevel = Environment.process.LOG_LEVEL {
             app.logger.logLevel = Logger.Level(rawValue: logLevel) ?? .info

@@ -29,6 +29,10 @@ public struct RedisComponents: RedisComponentsProtocol {
     /// Instance of app as `Application`
     public let app: Application
 
+    init(app: Application) {
+        self.app = app
+    }
+
     public func getPong() async -> String {
         try? app.boot()
         do {

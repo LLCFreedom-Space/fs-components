@@ -30,6 +30,10 @@ public struct PostgresComponents: PostgresComponentsProtocol {
     /// Instance of app as `Application`
     public let app: Application
 
+    init(app: Application) {
+        self.app = app
+    }
+
     /// Get version from postgresql
     /// - Returns: `String`
     public func getVersion() async -> String {

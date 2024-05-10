@@ -29,6 +29,10 @@ public struct MongoComponents: MongoComponentsProtocol {
     /// Instance of app as `Application`
     public let app: Application
 
+    init(app: Application) {
+        self.app = app
+    }
+    
     public func getConnection(by url: String) async -> MongoConnectionState {
         let result = app.mongoCluster?.connectionState
         app.logger.debug("Connect to mongo have result: \(String(describing: result))")

@@ -26,13 +26,15 @@ import NIOCore
 import Logging
 import Vapor
 
-struct LogMiddleware: AsyncMiddleware {
+public struct LogMiddleware: AsyncMiddleware {
+    public init() {}
+    
     /// Check path and don't show logger if it need
     /// - Parameters:
     ///   - request: The incoming `Request`.
     ///   - next: Next `Responder` in the chain, potentially another middleware or the main router.
     /// - Returns: An HTTP response from a server back to the client. An asynchronous `Response`.
-    func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
+    public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
         let path = "\(request.url.path.removingPercentEncoding ?? request.url.path)"
         if path != "/v1/status" && path != "/v1/health" {
             request.logger.log(level: .info, "\(request.method) \(path)")

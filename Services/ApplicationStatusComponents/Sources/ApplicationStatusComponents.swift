@@ -28,6 +28,10 @@ public struct ApplicationStatusComponents: ApplicationStatusComponentsProtocol {
     /// Instance of app as `Application`
     public let app: Application
 
+    init(app: Application) {
+        self.app = app
+    }
+    
     /// Recording the start time for an `Application`
     /// Example - `78647017841958.0`
     public func applicationLaunchTime() {

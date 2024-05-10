@@ -25,6 +25,8 @@
 import Vapor
 
 public struct AllowedHostsMiddleware: AsyncMiddleware {
+    public init() {}
+    
     ///  "AllowedHostsMiddleware": It checks if the incoming request's IP address is identifiable and permitted based on a predefined list of allowed hosts.
     /// - Parameters:
     ///   - request: The incoming `Request`.
