@@ -28,7 +28,9 @@ import JWT
 public struct ConsulComponents: ConsulComponentsProtocol {
     /// Instance of app as `Application`
     let app: Application
-
+    
+    /// Init for `ConsulComponents`
+    /// - Parameter app: `Application`
     init(app: Application) {
         self.app = app
     }
