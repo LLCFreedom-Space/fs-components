@@ -32,7 +32,7 @@ let package = Package(
         // 🔏 Vapor JWT provider
         .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
         // 🐈 MongoDB driver based on Swift NIO.
-        .package(url: "https://github.com/orlandos-nl/MongoKitten.git", exact: "7.6.4"),
+        .package(url: "https://github.com/orlandos-nl/MongoKitten.git", from: "7.6.4"),
     ],
     targets: [
         .target(name: "PostgresComponents",
