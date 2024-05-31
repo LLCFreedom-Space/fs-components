@@ -108,6 +108,6 @@ let package = Package(
                 "MongoComponents",
                 "AllowedHostsMiddleware"
             ]
-        ),
+        )
     ]
 )

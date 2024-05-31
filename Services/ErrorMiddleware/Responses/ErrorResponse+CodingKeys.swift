@@ -25,7 +25,7 @@
 import Vapor
 
 extension ErrorResponse {
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case isError = "is_error"
         case reason
         case error

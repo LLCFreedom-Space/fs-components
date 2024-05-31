@@ -27,14 +27,14 @@ import JWT
 
 public struct ConsulComponents: ConsulComponentsProtocol {
     /// Instance of app as `Application`
-    let app: Application
-    
+    public let app: Application
+
     /// Init for `ConsulComponents`
     /// - Parameter app: `Application`
-    init(app: Application) {
+    public init(app: Application) {
         self.app = app
     }
-    
+
     /// Get connection status for consul
     /// - Returns: `HTTPResponseStatus` or `nil` depending on whether the status was obtained from the service
     public func getConsulStatus() async -> HTTPResponseStatus? {

@@ -26,9 +26,9 @@ import Vapor
 
 public struct LogLevel {
     /// Instance of app as `Application`
-    let app: Application
+    public let app: Application
 
-    init(app: Application) {
+    public init(app: Application) {
         self.app = app
     }
 

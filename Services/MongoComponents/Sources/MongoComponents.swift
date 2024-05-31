@@ -29,7 +29,7 @@ public struct MongoComponents: MongoComponentsProtocol {
     /// Instance of app as `Application`
     public let app: Application
 
-    init(app: Application) {
+    public init(app: Application) {
         self.app = app
     }
     
