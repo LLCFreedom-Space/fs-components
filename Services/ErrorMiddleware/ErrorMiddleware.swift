@@ -79,8 +79,9 @@ public extension ErrorMiddleware {
             let response = Response(status: httpStatus, headers: headers)
             /// Attempt to serialize the error to json
             do {
-                let errorResponse = ErrorResponse(reason: reason, error: identifier, status: status, code: code)
-                response.body = try .init(data: JSONEncoder().encode(errorResponse))
+                let errorResponse = ErrorResponse(isError: true, reason: reason, error: identifier, status: status, code: code)
+                let encoder = req.application.globalEncoder
+                response.body = try .init(data: encoder.encode(errorResponse))
                 response.headers.replaceOrAdd(name: .contentType, value: "application/json; charset=utf-8")
             } catch {
                 response.body = .init(string: "Oops: \(error)")
