@@ -17,25 +17,28 @@
 
 //
 //  Constants.swift
-//  
 //
-//  Created by Mykola Buhaiov on 10.02.2024.
+//
+//  Created by Mykola Buhaiov on 03.06.2024.
 //
 
 import Vapor
 
 /// Constants
 public enum Constants {
-    /// RegEx for phone numbers
-    /// https://en.wikipedia.org/wiki/Telephone_numbering_plan
-    public static let phoneNumberRegex: String = "^(\\s*)?(\\+)?([-()+]?\\d[- _():=+]?){5,15}(\\s*)?$"
-    public static let serviceNameRegex: String = "^[a-z-]{1,100}$"
-    public static let phoneNumberCodeRegex: String = "^\\d{6}$"
-    public static let nameRegex: String = "^.{1,100}$"
-    public static let postalCodeRegex: String = "(^\\d{5}(-\\d{4})?$)|(^[ABCEGHJKLMNPRSTVXY]\\d[A-Z][- ]*\\d[A-Z]\\d$)"
-    public static let isoCountryCodeRegex = "^[A-Z]{2}$"
-    public static let passwordRegex: String = "^.{8,}$"
-    public static let companyNameRegex: String = "^.{6,255}$"
-    /// Default date format
-    public static let dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+    /// Issuer name that issued access token
+    public static let audienceName = "jwt-library"
+
+    public static let defaultJwtClaimIssuer = "jwt-library"
+
+    public static let accessTokenLifetime: Double = 60 * 60
+
+    public static let defaultPayload = AccessTokenPayload(
+        sub: UUID(),
+        userType: .standard,
+        expirationAt: Date().addingTimeInterval(TimeInterval(Constants.accessTokenLifetime)),
+        issuedAt: Date(),
+        issuer: Constants.defaultJwtClaimIssuer,
+        audience: [Constants.audienceName]
+    )
 }

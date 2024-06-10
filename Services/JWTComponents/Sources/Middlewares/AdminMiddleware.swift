@@ -16,32 +16,30 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //
-//  AllowedHostsMiddleware.swift
-//  
+//  AdminMiddleware.swift
 //
-//  Created by Mykola Buhaiov on 10.05.2024.
+//
+//  Created by Mykola Buhaiov on 03.06.2024.
 //
 
+import JWT
 import Vapor
 
-public struct AllowedHostsMiddleware: AsyncMiddleware {
+/// Admin verification Middleware
+public struct AdminMiddleware: AsyncMiddleware {
     public init() {}
-    
-    ///  "AllowedHostsMiddleware": It checks if the incoming request's IP address is identifiable and permitted based on a predefined list of allowed hosts.
+
+    /// Verification an User type in payload
     /// - Parameters:
     ///   - request: The incoming `Request`.
     ///   - next: Next `Responder` in the chain, potentially another middleware or the main router.
-    /// - Returns: allowed response with a correct IP address
+    /// - Returns: An HTTP response from a server back to the client. An asynchronous `Response`.
     public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
-        request.logger.debug("INFO: ipAddress headers - \(String(describing: request.headers))")
-        guard let ipAddress = request.remoteAddress?.ipAddress else {
-            request.application.logger.error("ERROR: Access attempt without an authorized IP address")
-            throw HostError.notAcceptable
-        }
-        if !request.application.allowedHosts.contains(ipAddress) {
-            request.application.logger.error("ERROR: Unauthorized access attempt from IP address: \(ipAddress)")
-            throw HostError.unauthorizedAccessAttempt(ipAddress: ipAddress)
+        guard request.payload.userType == .admin else {
+            request.logger.error("ERROR: User is not admin")
+            throw AuthenticationError.missingAuthorizationHeader
         }
         return try await next.respond(to: request)
     }
 }
+
