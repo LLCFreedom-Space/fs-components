@@ -23,16 +23,17 @@
 //
 
 import Vapor
+import ErrorMiddleware
 
 /// A generic `AuthenticationError` data.
-enum AuthenticationError: AbortError, DebuggableError {
+public enum AuthenticationError: AppError {
     /// The `AuthorizationError` not found bearer token
     case missingAuthorizationHeader
 
     case claimVerificationFailure
 
     /// Http response status of error
-    var status: HTTPResponseStatus {
+    public var status: HTTPResponseStatus {
         switch self {
         case .missingAuthorizationHeader:
             return .unauthorized
@@ -43,7 +44,7 @@ enum AuthenticationError: AbortError, DebuggableError {
     }
 
     /// Reason of error
-    var reason: String {
+    public var reason: String {
         switch self {
         case .missingAuthorizationHeader:
             return "Missing authorization header"
@@ -54,7 +55,7 @@ enum AuthenticationError: AbortError, DebuggableError {
     }
 
     /// Identifier of error
-    var identifier: String {
+    public var identifier: String {
         switch self {
         case .missingAuthorizationHeader:
             return "missing_authorization_header"
@@ -64,7 +65,7 @@ enum AuthenticationError: AbortError, DebuggableError {
         }
     }
 
-    var number: String {
+    public var number: String {
         switch self {
         case .missingAuthorizationHeader:
             return "0001"

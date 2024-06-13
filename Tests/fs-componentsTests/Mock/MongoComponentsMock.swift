@@ -27,7 +27,7 @@ import MongoClient
 @testable import MongoComponents
 
 public struct MongoComponentsMock: MongoComponentsProtocol {
-    public func getConnection(by url: String) async -> MongoConnectionState {
+    public func checkConnection(by url: String) async -> MongoConnectionState {
         MongoConnectionState.connecting
     }
 }

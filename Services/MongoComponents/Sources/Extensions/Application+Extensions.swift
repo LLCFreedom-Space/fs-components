@@ -52,10 +52,11 @@ extension Application {
         set { storage[MongoClusterKey.self] = newValue }
     }
 
-    /*
-     /// For example setup mongo cluster need use method like this:
-     app.mongoCluster = try await MongoCluster(connectingTo: ConnectionSettings(connectionString))
-     */
+    /// Initialize MongoCluster
+    /// - Parameter connectionString: URI as `String`. Example: "mongodb://localhost/myapp
+    public func initializeMongoCluster(connectionString: String) throws {
+        self.mongoCluster = try MongoCluster(lazyConnectingTo: ConnectionSettings(connectionString))
+    }
 }
 
 extension Application {
@@ -71,8 +72,9 @@ extension Application {
         set { storage[MongoDBKey.self] = newValue }
     }
 
-    /*
-     /// For example setup mongo database need use method like this:
-     app.mongoDB = try await try MongoDatabase.lazyConnect(to: connectionString)
-     */
+    /// Initialize MongoDB
+    /// - Parameter connectionString: URI as `String`. Example: "mongodb://localhost/myapp
+    public func initializeMongoDB(connectionString: String) throws {
+        self.mongoDB = try MongoDatabase.lazyConnect(to: connectionString)
+    }
 }

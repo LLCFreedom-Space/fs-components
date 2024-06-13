@@ -27,5 +27,5 @@ import MongoClient
 
 /// Groups func for get mongo components
 public protocol MongoComponentsProtocol {
-    func getConnection(by url: String) async -> MongoConnectionState
+    func checkConnection(by url: String) async -> MongoConnectionState
 }

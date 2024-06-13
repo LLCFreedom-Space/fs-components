@@ -23,8 +23,9 @@
 //
 
 import Vapor
+import ErrorMiddleware
 
-public enum HostError: AbortError, DebuggableError {
+public enum HostError: AppError {
     case notAcceptable
     case unauthorizedAccessAttempt(ipAddress: String)
 
@@ -55,7 +56,7 @@ public enum HostError: AbortError, DebuggableError {
         }
     }
 
-    var number: String {
+    public var number: String {
         switch self {
         case .notAcceptable:
             return "0001"

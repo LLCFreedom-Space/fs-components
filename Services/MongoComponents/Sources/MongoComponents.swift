@@ -33,7 +33,7 @@ public struct MongoComponents: MongoComponentsProtocol {
         self.app = app
     }
     
-    public func getConnection(by url: String) async -> MongoConnectionState {
+    public func checkConnection(by url: String) async -> MongoConnectionState {
         let result = app.mongoCluster?.connectionState
         app.logger.debug("Connect to mongo have result: \(String(describing: result))")
         guard let result else {
