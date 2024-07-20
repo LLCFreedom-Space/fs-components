@@ -13,13 +13,10 @@ let package = Package(
         .library(name: "PostgresComponents", targets: ["PostgresComponents"]),
         .library(name: "RedisComponents", targets: ["RedisComponents"]),
         .library(name: "ConsulComponents", targets: ["ConsulComponents"]),
-        .library(name: "ErrorMiddleware", targets: ["ErrorMiddleware"]),
         .library(name: "ValidationComponents", targets: ["ValidationComponents"]),
         .library(name: "ApplicationStatusComponents", targets: ["ApplicationStatusComponents"]),
         .library(name: "LoggingComponents", targets: ["LoggingComponents"]),
         .library(name: "MongoComponents", targets: ["MongoComponents"]),
-        .library(name: "AllowedHostsMiddleware", targets: ["AllowedHostsMiddleware"]),
-        .library(name: "JWTComponents", targets: ["JWTComponents"])
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -58,13 +55,6 @@ let package = Package(
                 ],
                 path: "./Services/ConsulComponents"
                ),
-        .target(name: "ErrorMiddleware",
-                dependencies: [
-                    .product(name: "Vapor", package: "vapor"),
-                    .product(name: "JWT", package: "jwt")
-                ],
-                path: "./Services/ErrorMiddleware"
-               ),
         .target(name: "ValidationComponents",
                 dependencies: [
                     .product(name: "Vapor", package: "vapor"),
@@ -90,32 +80,16 @@ let package = Package(
                 ],
                 path: "./Services/MongoComponents"
                ),
-        .target(name: "AllowedHostsMiddleware",
-                dependencies: [
-                    .product(name: "Vapor", package: "vapor"),
-                ],
-                path: "./Services/AllowedHostsMiddleware"
-               ),
-        .target(name: "JWTComponents",
-                dependencies: [
-                    .product(name: "Vapor", package: "vapor"),
-                    .product(name: "JWT", package: "jwt")
-                ],
-                path: "./Services/JWTComponents"
-               ),
         .testTarget(
             name: "fs-componentsTests",
             dependencies: [
-                "ErrorMiddleware",
                 "PostgresComponents",
                 "RedisComponents",
                 "ConsulComponents",
                 "ValidationComponents",
                 "ApplicationStatusComponents",
                 "LoggingComponents",
-                "MongoComponents",
-                "AllowedHostsMiddleware",
-                "JWTComponents"
+                "MongoComponents"
             ]
         )
     ]
