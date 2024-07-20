@@ -16,25 +16,17 @@
 //  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //
-//  LogLevel.swift
+//  Application+Extensions.swift
+//  
 //
-//
-//  Created by Mykola Buhaiov on 18.02.2024.
+//  Created by Mykola Buhaiov on 20.07.2024.
 //
 
 import Vapor
 
-public struct LogLevel {
-    /// Instance of app as `Application`
-    public let app: Application
-
-    public func setupLoggingLevel() {
-        if let logLevel = Environment.process.LOG_LEVEL {
-            app.logger.logLevel = Logger.Level(rawValue: logLevel) ?? .info
-            app.logger.info("SUCCESS: Server start with logLevel: \(logLevel)")
-        } else {
-            app.logger.logLevel = .info
-            app.logger.info("SUCCESS: Server start with logLevel: .info")
-        }
+extension Application {
+    /// Initialize `LogLevel` struct
+    public var logLevel: LogLevel {
+        .init(app: self)
     }
 }
