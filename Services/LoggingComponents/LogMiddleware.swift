@@ -37,7 +37,7 @@ public struct LogMiddleware: AsyncMiddleware {
     public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
         let path = "\(request.url.path.removingPercentEncoding ?? request.url.path)"
         if path != "/v1/status" && path != "/v1/health" {
-            request.logger.log(level: .info, "\(request.method) \(path)")
+            request.logger.log(level: .trace, "\(request.method) \(path)")
         }
         return try await next.respond(to: request)
     }
