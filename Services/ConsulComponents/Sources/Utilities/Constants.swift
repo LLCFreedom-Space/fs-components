@@ -24,11 +24,38 @@
 
 import Vapor
 
-/// Constants
+/// A collection of constant values used throughout the application.
+///
+/// `Constants` provides default configuration values, such as the URL and status path for interacting
+/// with a Consul server. These values are useful for ensuring consistency and reducing duplication
+/// across the codebase.
 public enum Constants {
-    /// Default url for consul
+    /// The default URL for connecting to a local Consul server.
+    ///
+    /// This constant specifies the default base URL used to interact with a Consul server.
+    /// It can be overridden in configurations where a different Consul instance is required.
+    ///
+    /// Example:
+    /// - `http://127.0.0.1:8500` (local Consul instance)
+    ///
+    /// Usage:
+    /// ```swift
+    /// let consulUrl = Constants.consulUrl
+    /// ```
     static let consulUrl = "http://127.0.0.1:8500"
 
-    /// Default path for get consul status
+    /// The default path for retrieving the Consul server's leader status.
+    ///
+    /// This constant defines the relative path used to fetch the leader status of the Consul cluster.
+    /// The full URL is typically constructed by combining `consulUrl` with this path.
+    ///
+    /// Example:
+    /// - `/v1/status/leader`
+    ///
+    /// Usage:
+    /// ```swift
+    /// let statusPath = Constants.consulStatusPath
+    /// let fullUrl = "\(Constants.consulUrl)\(statusPath)"
+    /// ```
     static let consulStatusPath = "/v1/status/leader"
 }

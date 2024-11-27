@@ -26,16 +26,29 @@ import Vapor
 import Fluent
 import FluentPostgresDriver
 
+/// A struct that implements the `PostgresComponentsProtocol` to interact with a PostgreSQL database.
+///
+/// This struct provides methods to check the PostgreSQL database version,
+/// retrieve the connection status, and schedule periodic health checks for PostgreSQL.
+/// It is intended to be used in an application to interact with a PostgreSQL database and manage
+/// the health and status of the database.
 public struct PostgresComponents: PostgresComponentsProtocol {
-    /// Instance of app as `Application`
+    /// Instance of the application, used to access the database and event loop.
     public let app: Application
 
+    /// Initializes a new instance of `PostgresComponents` with a given application.
+    ///
+    /// - Parameter app: The `Application` instance, which provides access to the database and other app services.
     public init(app: Application) {
         self.app = app
     }
 
-    /// Get version from postgresql
-    /// - Returns: `String`
+    /// Retrieves the version of the PostgreSQL database.
+    ///
+    /// This method performs a query to the PostgreSQL database to get its version.
+    /// If successful, it returns the version string, otherwise, it returns an error message.
+    ///
+    /// - Returns: A `String` containing the version of the PostgreSQL database or an error message if the connection fails.
     public func getVersion() async -> String {
         let rows = try? await (app.db(.psql) as? PostgresDatabase)?.simpleQuery("SELECT version()").get()
         let row = rows?.first?.makeRandomAccess()
@@ -46,9 +59,16 @@ public struct PostgresComponents: PostgresComponentsProtocol {
         return version
     }
 
-    /// Get status for `PostgresSQL` database
-    /// - Returns: `(String, HTTPResponseStatus)`
-    ///  Example - `PostgreSQL 14.1 (Debian 14.1-1.pgdg110+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit`,  `.ok`
+    /// Retrieves the connection status and version of the PostgreSQL database.
+    ///
+    /// This method checks the connection to the PostgreSQL database and returns the version information
+    /// along with an HTTP status code indicating whether the connection was successful or not.
+    ///
+    /// - Returns: A tuple containing:
+    ///   - A `String` with the PostgreSQL version information if the connection is successful, or an error message if the connection fails.
+    ///   - A `HTTPResponseStatus` indicating the status of the connection (e.g., `.ok` for success or `.badRequest` for failure).
+    ///
+    /// - Example: `("PostgreSQL 14.1 (Debian 14.1-1.pgdg110+1) ...", .ok)` if successful, or `("No connect to Postgres database.", .badRequest)` if the connection fails.
     public func getPostgresStatus() async -> (String, HTTPResponseStatus) {
         var connection = String()
         var statusCode = HTTPResponseStatus.badRequest
@@ -69,8 +89,14 @@ public struct PostgresComponents: PostgresComponentsProtocol {
         return (connection, statusCode)
     }
 
-    /// Schedule repeated task
-    /// - Parameter delay: `Int64`
+    /// Schedules a repeated task to check PostgreSQL's status at specified intervals.
+    ///
+    /// This method schedules a background task that checks the PostgreSQL status and version
+    /// at regular intervals, based on the specified `delay` parameter (in seconds). The task
+    /// will continue to run and check the PostgreSQL status at each interval.
+    ///
+    /// - Parameter delay: The interval (in seconds) between each PostgreSQL status check.
+    ///                    The task will repeat at this interval until stopped or canceled.
     public func scheduleRepeatedTask(second delay: Int64) {
         DispatchQueue.global().async {
             self.app.client.eventLoop.scheduleRepeatedTask(initialDelay: .seconds(0), delay: .seconds(delay)) { _ in

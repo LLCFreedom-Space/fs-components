@@ -6,10 +6,12 @@ import PackageDescription
 let package = Package(
     name: "fs-components",
     platforms: [
+        // The package supports macOS 13.0 and later.
         .macOS(.v13)
     ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
+        // Defines the products (libraries) the package produces.
+        // Each product is a library that can be used by other packages.
         .library(name: "PostgresComponents", targets: ["PostgresComponents"]),
         .library(name: "RedisComponents", targets: ["RedisComponents"]),
         .library(name: "ConsulComponents", targets: ["ConsulComponents"]),
@@ -19,17 +21,19 @@ let package = Package(
         .library(name: "MongoComponents", targets: ["MongoComponents"]),
     ],
     dependencies: [
-        // 💧 A server-side Swift web framework.
+        // Package dependencies are other Swift packages that this package relies on.
+        // These packages are fetched from the provided URLs and version ranges.
+        // Vapor framework, a web framework for Swift, required to build server-side applications.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
-        // 🖋 Swift ORM (queries, models, and relations) for NoSQL and SQL databases.
+        // Fluent ORM, needed for SQL and NoSQL database management and migrations.
         .package(url: "https://github.com/vapor/fluent.git", from: "4.1.0"),
-        // 🐘 Swift ORM (queries, models, relations, etc) built on PostgreSQL.
+        // Fluent PostgreSQL driver, specifically used for PostgreSQL database operations.
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.1.1"),
-        // Vapor provider for RedisKit + RedisNIO
+        // Redis package, used for interacting with Redis databases.
         .package(url: "https://github.com/vapor/redis.git", from: "5.0.0-alpha.2.1"),
-        // 🔏 Vapor JWT provider
+        // JWT provider for Vapor, needed for generating and verifying JSON Web Tokens.
         .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
-        // 🐈 MongoDB driver based on Swift NIO.
+        // MongoKitten package, used for interacting with MongoDB.
         .package(url: "https://github.com/orlandos-nl/MongoKitten.git", from: "7.6.4"),
     ],
     targets: [
@@ -80,6 +84,7 @@ let package = Package(
                 ],
                 path: "./Services/MongoComponents"
                ),
+        // A test target for testing all components.
         .testTarget(
             name: "fs-componentsTests",
             dependencies: [

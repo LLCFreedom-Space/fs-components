@@ -25,13 +25,31 @@
 import Vapor
 
 extension Application {
-    /// A `PostgresComponentsKey` conform to StorageKey protocol
+    /// A storage key used to associate `PostgresComponentsProtocol` with the application storage.
+    ///
+    /// The `PostgresComponentsKey` struct conforms to the `StorageKey` protocol, enabling type-safe storage
+    /// and retrieval of `PostgresComponentsProtocol` instances in the application.
     public struct PostgresComponentsKey: StorageKey {
-        /// Less verbose typealias for `PostgresComponentsProtocol`.
+        /// The associated value type stored under this key.
+        ///
+        /// This typealias simplifies usage by referring to `PostgresComponentsProtocol`.
         public typealias Value = PostgresComponentsProtocol
     }
 
-    /// Setup `postgresComponents` in application storage
+    /// Accessor for managing `PostgresComponentsProtocol` within the application's storage.
+    ///
+    /// This computed property provides a convenient way to set or retrieve a `PostgresComponentsProtocol`
+    /// instance from the application's storage. The value is stored and accessed using the `PostgresComponentsKey`.
+    ///
+    /// - Note: Use this property to configure and access Postgres components at the application level.
+    ///
+    /// Example:
+    /// ```swift
+    /// app.postgresComponents = MyPostgresComponents()
+    /// if let components = app.postgresComponents {
+    ///     components.connect()
+    /// }
+    /// ```
     public var postgresComponents: PostgresComponentsProtocol? {
         get { storage[PostgresComponentsKey.self] }
         set { storage[PostgresComponentsKey.self] = newValue }

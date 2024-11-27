@@ -25,7 +25,19 @@
 import Vapor
 import MongoClient
 
-/// Groups func for get mongo components
+/// A protocol defining components for managing and verifying MongoDB connections.
 public protocol MongoComponentsProtocol {
+    /// Checks the connection state of a MongoDB instance using the specified URL.
+    ///
+    /// This asynchronous function attempts to connect to the MongoDB instance at the given URL
+    /// and determines the connection state. It can be used to verify the availability and status
+    /// of a MongoDB database.
+    ///
+    /// - Parameter url: A `String` representing the connection URL of the MongoDB instance.
+    ///
+    /// - Returns: A `MongoConnectionState` value representing the status of the connection,
+    ///   such as `.connected`, `.disconnected`, or other custom states.
+    ///
+    /// - Note: Ensure that the URL provided is valid and accessible to avoid connection errors.
     func checkConnection(by url: String) async -> MongoConnectionState
 }

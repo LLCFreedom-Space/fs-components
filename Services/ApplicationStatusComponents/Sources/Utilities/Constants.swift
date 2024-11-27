@@ -24,8 +24,16 @@
 
 import Vapor
 
-/// Constants
+/// A collection of constant values used throughout the application.
+///
+/// The `Constants` enum provides default values that can be reused across the application,
+/// ensuring consistency and reducing duplication of literal values.
 public enum Constants {
-    /// Default date format
+    /// The default date format used for date-time representations.
+    ///
+    /// This constant defines the date format to be used when parsing or formatting dates in the
+    /// application. It follows the ISO 8601 format with milliseconds.
+    ///
+    /// - Example: `"yyyy-MM-dd'T'HH:mm:ss.SSS"`
     static let dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
 }

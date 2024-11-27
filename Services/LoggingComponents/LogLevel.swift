@@ -24,10 +24,31 @@
 
 import Vapor
 
+/// A utility structure for configuring the logging level of the application.
+///
+/// This structure provides functionality to set up the logging level of the application
+/// based on the environment variable `LOG_LEVEL`.
 public struct LogLevel {
-    /// Instance of app as `Application`
+    /// The instance of the application used to configure the logging level.
     public let app: Application
 
+    /// Configures the application's logging level based on the environment variable `LOG_LEVEL`.
+    ///
+    /// This method checks if a `LOG_LEVEL` is defined in the environment. If present, it attempts
+    /// to set the logging level to the corresponding value. If the value is invalid or not defined,
+    /// it defaults to `.info`. It also logs a success message indicating the logging level used.
+    ///
+    /// - Behavior:
+    ///   - If `LOG_LEVEL` is set to a valid logging level (e.g., `debug`, `info`, `error`), the
+    ///     logging level is updated, and a success message with the level is logged.
+    ///   - If `LOG_LEVEL` is not set or invalid, the logging level defaults to `.info`, and
+    ///     a corresponding success message is logged.
+    ///
+    /// - Example:
+    ///   ```swift
+    ///   let logLevel = LogLevel(app: app)
+    ///   logLevel.setupLoggingLevel()
+    ///   ```
     public func setupLoggingLevel() {
         if let logLevel = Environment.process.LOG_LEVEL {
             app.logger.logLevel = Logger.Level(rawValue: logLevel) ?? .info

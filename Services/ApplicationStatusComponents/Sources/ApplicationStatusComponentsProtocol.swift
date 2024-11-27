@@ -24,12 +24,27 @@
 
 import Vapor
 
+/// A protocol that defines components for tracking an application's status and runtime metrics.
 public protocol ApplicationStatusComponentsProtocol {
+    /// Logs or calculates the application's launch time.
+    ///
+    /// This function typically records or provides information about when the application started.
     func applicationLaunchTime()
 
+    /// Returns the application's uptime in seconds.
+    ///
+    /// This function computes how long the application has been running since its launch.
+    /// - Returns: The time in seconds since the application launched.
     func applicationUpTime() -> Double
 
+    /// Logs or calculates the application's launch date.
+    ///
+    /// This function provides the date and time the application was launched.
     func applicationLaunchDate()
 
+    /// Returns a string representation of the application's uptime.
+    ///
+    /// This function converts the application's uptime into a human-readable format.
+    /// - Returns: A formatted string representing the application's uptime (e.g., "2 hours, 30 minutes").
     func applicationUpDate() -> String
 }

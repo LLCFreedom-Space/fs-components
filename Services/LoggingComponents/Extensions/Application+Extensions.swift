@@ -25,7 +25,18 @@
 import Vapor
 
 extension Application {
-    /// Initialize `LogLevel` struct
+    /// Provides access to the `LogLevel` utility for configuring the application's logging level.
+    ///
+    /// This computed property initializes and returns an instance of the `LogLevel` struct,
+    /// which is used to configure and manage the application's logging level.
+    ///
+    /// - Usage:
+    ///   ```swift
+    ///   let logLevel = app.logLevel
+    ///   logLevel.setupLoggingLevel()
+    ///   ```
+    ///
+    /// - Returns: A `LogLevel` instance initialized with the current application.
     public var logLevel: LogLevel {
         .init(app: self)
     }

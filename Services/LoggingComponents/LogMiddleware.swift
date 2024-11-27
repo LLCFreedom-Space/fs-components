@@ -26,19 +26,52 @@ import NIOCore
 import Logging
 import Vapor
 
+/// A middleware that logs incoming requests, excluding specific paths.
+///
+/// `LogMiddleware` is an asynchronous middleware that intercepts HTTP requests,
+/// logs relevant information about them, and then passes them down the middleware chain.
+/// Certain paths (e.g., `/v1/status` and `/v1/health`) are excluded from logging to avoid cluttering the logs.
+///
+/// Example Usage:
+/// ```swift
+/// app.middleware.use(LogMiddleware())
+/// ```
 public struct LogMiddleware: AsyncMiddleware {
+    /// Creates an instance of `LogMiddleware`.
+    ///
+    /// Example:
+    /// ```swift
+    /// let middleware = LogMiddleware()
+    /// ```
     public init() {}
-    
-    /// Check path and don't show logger if it need
+
+    /// Intercepts an HTTP request, logs it (if applicable), and passes it to the next responder in the chain.
+    ///
+    /// This method determines the request's path and conditionally logs its details.
+    /// Paths `/v1/status` and `/v1/health` are excluded from logging to avoid unnecessary output for common health checks.
+    ///
     /// - Parameters:
-    ///   - request: The incoming `Request`.
-    ///   - next: Next `Responder` in the chain, potentially another middleware or the main router.
-    /// - Returns: An HTTP response from a server back to the client. An asynchronous `Response`.
+    ///   - request: The incoming `Request` to process.
+    ///   - next: The next `AsyncResponder` in the middleware chain, which could be another middleware or the main application router.
+    /// - Returns: An asynchronous `Response` returned by the next responder in the chain.
+    ///
+    /// Example:
+    /// ```swift
+    /// let response = try await logMiddleware.respond(to: request, chainingTo: next)
+    /// ```
+    ///
+    /// Logging Behavior:
+    /// - Logs the HTTP method and the request's URL path at `.info` level.
+    /// - Skips logging for paths `/v1/status` and `/v1/health`.
     public func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
         let path = "\(request.url.path.removingPercentEncoding ?? request.url.path)"
+
+        // Conditionally log the request method and path.
         if path != "/v1/status" && path != "/v1/health" {
             request.logger.log(level: .info, "\(request.method) \(path)")
         }
+
+        // Pass the request to the next responder and return its response.
         return try await next.respond(to: request)
     }
 }

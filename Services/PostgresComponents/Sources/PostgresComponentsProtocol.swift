@@ -24,17 +24,45 @@
 
 import Vapor
 
-/// Groups func for get psql components
+/// A protocol defining methods for interacting with PostgreSQL components in an application.
+///
+/// This protocol provides functionality for checking the PostgreSQL database version,
+/// retrieving the connection status, and scheduling repeated tasks for PostgreSQL health checks.
+/// It is designed to be implemented by any service or component that interacts with PostgreSQL
+/// within an application.
 public protocol PostgresComponentsProtocol {
-    /// Get  postgresql version
-    /// - Returns: `HealthCheckItem`
-    func getVersion() async -> String 
+    /// Retrieves the version of the PostgreSQL database.
+    ///
+    /// This method asynchronously queries the PostgreSQL server to obtain its version information.
+    /// It returns a string representing the version of PostgreSQL, which may include additional
+    /// details such as the operating system and build configuration.
+    ///
+    /// - Returns: A `String` containing the version information of the PostgreSQL database.
+    ///           For example, it could return something like `"PostgreSQL 14.1 (Debian 14.1-1.pgdg110+1)..."`.
+    func getVersion() async -> String
 
-    /// Get status for `PostgresSQL` database
-    /// - Returns: `(String, String, HTTPResponseStatus)` - Connection status, version of database,  connection status code. Example - `Ok`, `PostgreSQL 14.1 (Debian 14.1-1.pgdg110+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit`,  `.ok`
+    /// Retrieves the connection status and version of the PostgreSQL database.
+    ///
+    /// This method asynchronously checks the status of the PostgreSQL connection and retrieves
+    /// the version information. It returns a tuple containing a status message, the version of
+    /// PostgreSQL, and an HTTP response status code.
+    ///
+    /// - Returns: A tuple containing:
+    ///   - `String`: The version of the PostgreSQL database (e.g., `"PostgreSQL 14.1..."`).
+    ///   - `HTTPResponseStatus`: The HTTP status code indicating the result of the connection check
+    ///                           (e.g., `.ok` for success, `.serviceUnavailable` for failure).
+    ///
+    /// - Example: `("Ok", "PostgreSQL 14.1...", .ok)` if PostgreSQL is available and responsive,
+    ///            or `("Failed to connect", "", .serviceUnavailable)` if there is a failure in connection.
     func getPostgresStatus() async -> (String, HTTPResponseStatus)
 
-    /// Schedule repeated task
-    /// - Parameter delay: `Int64`
+    /// Schedules a repeated task to check PostgreSQL's status at specified intervals.
+    ///
+    /// This method schedules a background task that checks the PostgreSQL status and version
+    /// at regular intervals, based on the specified `delay` parameter (in seconds). The task
+    /// will continue to run and check the PostgreSQL status at each interval.
+    ///
+    /// - Parameter delay: The interval (in seconds) between each PostgreSQL status check.
+    ///                    The task will repeat at this interval until stopped or canceled.
     func scheduleRepeatedTask(second delay: Int64)
 }
